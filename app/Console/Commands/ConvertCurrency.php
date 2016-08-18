@@ -61,15 +61,18 @@ class ConvertCurrency extends Command
     {
         $filePath = $this->argument('file');
 
-        $this->readData($filePath);
+        if($this->readData($filePath)) {
 
-        foreach ($this->data as $item) {
-            if ($item["operation"] == "cash_out") {
-                $result = $this->cashOutCommissions($item);
-            }else{
-                $result = $this->cashInCommissions($item["amount"], $item["currency"]);
+            foreach ($this->data as $item) {
+                if ($item["operation"] == "cash_out") {
+                    $result = $this->cashOutCommissions($item);
+                } else {
+                    $result = $this->cashInCommissions($item["amount"], $item["currency"]);
+                }
+                $this->info(number_format($result, 2));
             }
-            $this->info(number_format($result, 2));
+        }else{
+            $this->error("The provided file was not found!");
         }
     }
 
@@ -195,7 +198,7 @@ class ConvertCurrency extends Command
      * Read data from csv file.
      *
      * @param string $filePath
-     * @return void
+     * @return boolean
      */
     private function readData($filePath)
     {
@@ -211,7 +214,10 @@ class ConvertCurrency extends Command
                 }
             } finally {
                 fclose($file);
+                return true;
             }
+        }else{
+            return false;
         }
     }
 
