@@ -1,11 +1,19 @@
 <?php
-
+/**
+ * Created by PhpStorm.
+ *
+ * @author Mindaugas Elvikis <mindaugas.elvikis@gmail.com>
+ */
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use File;
 use Carbon;
 
+/**
+ * Class ConvertCurrency
+ * @package App\Console\Commands
+ */
 class ConvertCurrency extends Command
 {
     /**
@@ -20,7 +28,7 @@ class ConvertCurrency extends Command
      *
      * @var string
      */
-    protected $description = 'Calculate commissions.';
+    protected $description = 'Calculate commissions from gived data in file.';
 
     /**
      * Money transactions data.
@@ -79,9 +87,9 @@ class ConvertCurrency extends Command
     /**
      * Convert money from one currency to another.
      *
-     * @param float $amount
-     * @param string $from
-     * @param string $to
+     * @param float     $amount
+     * @param string    $from
+     * @param string    $to
      *
      * @return float
      */
@@ -93,8 +101,8 @@ class ConvertCurrency extends Command
     /**
      * Calculate cash in commissions
      *
-     * @param float $amount
-     * @param string $currency
+     * @param float     $amount
+     * @param string    $currency
      *
      * @return float
      */
@@ -198,6 +206,7 @@ class ConvertCurrency extends Command
      * Read data from csv file.
      *
      * @param string $filePath
+     *
      * @return boolean
      */
     private function readData($filePath)
@@ -228,7 +237,8 @@ class ConvertCurrency extends Command
      * Round number up.
      *
      * @param float $number
-     * @param int $precision
+     * @param int   $precision
+     *
      * @return float
      */
     private function round_up($number, $precision = 2)
