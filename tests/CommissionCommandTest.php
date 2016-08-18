@@ -10,7 +10,8 @@ class CommissionCommandTest extends TestCase
     /**
      * @test Command returns correct calculations.
      */
-    public function testIfOperationsAreCalculatedCorrectly(){
+    public function testIfOperationsAreCalculatedCorrectly()
+    {
         $this->createTempFileAndTest("2016-01-05,1,natural,cash_in,200.00,EUR", "0.06");
         $this->createTempFileAndTest("2016-01-10,2,juridical,cash_in,1000000.00,EUR", "5.00");
         $this->createTempFileAndTest("2016-01-06,1,natural,cash_out,30000,JPY", "0");
@@ -32,7 +33,8 @@ class CommissionCommandTest extends TestCase
      * @param string $content
      * @param string $expectation
      */
-    private function createTempFileAndTest($content, $expectation){
+    private function createTempFileAndTest($content, $expectation)
+    {
         Storage::put('test.csv', $content);
         $filePath = storage_path('app/test.csv');
         $this->checkCommand('calculate:commissions', $filePath, $expectation);

@@ -61,7 +61,7 @@ class ConvertCurrency extends Command
     {
         $filePath = $this->argument('file');
 
-        if($this->readData($filePath)) {
+        if ($this->readData($filePath)) {
 
             foreach ($this->data as $item) {
                 if ($item["operation"] == "cash_out") {
@@ -71,7 +71,7 @@ class ConvertCurrency extends Command
                 }
                 $this->info(number_format($result, 2));
             }
-        }else{
+        } else {
             $this->error("The provided file was not found!");
         }
     }
@@ -164,7 +164,7 @@ class ConvertCurrency extends Command
         $amount = $commissionFree;
 
         foreach ($this->data as $item) {
-            if ($item == $operation) {
+            if ($item["id"] == $operation["id"]) {
                 break;
             } else if ($item["user"] == $operation["user"] && $item["operation"] == "cash_out") {
                 $operationDate = Carbon\Carbon::createFromFormat('Y-m-d', $item["date"]);
@@ -181,7 +181,7 @@ class ConvertCurrency extends Command
                     $amount = $amount - $cashOutAmount;
 
                     if ($count == 0 || $amount <= 0) {
-                        return $operation["amount"] - 0.00;
+                        return $operation["amount"];
                     }
                 }
             }
@@ -206,17 +206,20 @@ class ConvertCurrency extends Command
             $file = fopen($filePath, 'r');
 
             try {
+                $i = 1;
                 while (!feof($file)) {
                     $row = fgetcsv($file, 0, ',');
 
                     list($operation["date"], $operation["user"], $operation["user_type"], $operation["operation"], $operation["amount"], $operation["currency"]) = $row;
+                    $operation["id"] = $i;
                     $this->data[] = $operation;
+                    $i++;
                 }
             } finally {
                 fclose($file);
                 return true;
             }
-        }else{
+        } else {
             return false;
         }
     }
