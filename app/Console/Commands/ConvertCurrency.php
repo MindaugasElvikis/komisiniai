@@ -77,11 +77,31 @@ class ConvertCurrency extends Command
                 } else {
                     $result = $this->cashInCommissions($item["amount"], $item["currency"]);
                 }
-                $this->info(number_format($result, 2));
+
+                $result = $this->formatCurrencyFotOutput($result, $item["currency"]);
+                $this->info($result);
             }
         } else {
             $this->error("The provided file was not found!");
         }
+    }
+
+    /**
+     * Check if currency is JPY and if yes, round up everything after comma.
+     *
+     * @param float $amount
+     * @param string $currency
+     *
+     * @return float
+     */
+    private function formatCurrencyFotOutput($amount, $currency)
+    {
+        $numbersAfterComma = 2;
+        if ($currency == "JPY") {
+            $amount = $this->round_up($amount, 0);
+            $numbersAfterComma = 0;
+        }
+        return number_format($amount, $numbersAfterComma);
     }
 
     /**
