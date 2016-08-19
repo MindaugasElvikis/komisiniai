@@ -87,9 +87,9 @@ class ConvertCurrency extends Command
     /**
      * Convert money from one currency to another.
      *
-     * @param float     $amount
-     * @param string    $from
-     * @param string    $to
+     * @param float $amount
+     * @param string $from
+     * @param string $to
      *
      * @return float
      */
@@ -101,8 +101,8 @@ class ConvertCurrency extends Command
     /**
      * Calculate cash in commissions
      *
-     * @param float     $amount
-     * @param string    $currency
+     * @param float $amount
+     * @param string $currency
      *
      * @return float
      */
@@ -219,10 +219,12 @@ class ConvertCurrency extends Command
                 while (!feof($file)) {
                     $row = fgetcsv($file, 0, ',');
 
-                    list($operation["date"], $operation["user"], $operation["user_type"], $operation["operation"], $operation["amount"], $operation["currency"]) = $row;
-                    $operation["id"] = $i;
-                    $this->data[] = $operation;
-                    $i++;
+                    if ($row) {
+                        list($operation["date"], $operation["user"], $operation["user_type"], $operation["operation"], $operation["amount"], $operation["currency"]) = $row;
+                        $operation["id"] = $i;
+                        $this->data[] = $operation;
+                        $i++;
+                    }
                 }
             } finally {
                 fclose($file);
@@ -237,7 +239,7 @@ class ConvertCurrency extends Command
      * Round number up.
      *
      * @param float $number
-     * @param int   $precision
+     * @param int $precision
      *
      * @return float
      */
