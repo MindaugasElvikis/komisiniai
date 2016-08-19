@@ -8,6 +8,11 @@
 
 return [
     "default_currency" => "EUR",
+
+    /**
+     * Currencies that does not have cents.
+     */
+    "no_cents" => ["JPY"],
     "cash_in" => [
         "commission" => 0.0003,
         "max" => 5,

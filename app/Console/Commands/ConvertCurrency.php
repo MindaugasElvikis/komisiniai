@@ -97,7 +97,7 @@ class ConvertCurrency extends Command
     private function formatCurrencyFotOutput($amount, $currency)
     {
         $numbersAfterComma = 2;
-        if ($currency == "JPY") {
+        if (in_array($currency, config('commissions.no_cents'))) {
             $amount = $this->round_up($amount, 0);
             $numbersAfterComma = 0;
         }
